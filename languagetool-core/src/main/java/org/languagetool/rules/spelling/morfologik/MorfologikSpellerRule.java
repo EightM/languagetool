@@ -39,7 +39,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
 import static org.languagetool.JLanguageTool.*;
@@ -96,7 +95,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       runningExperiment = true;
     } else {
       runningExperiment = false;
-      suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
+      // Disable for BSL LS
+      //suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
+      suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
     }
   }
 

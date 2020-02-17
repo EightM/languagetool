@@ -256,17 +256,17 @@
             <version>0.3.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j</artifactId>
-            <version>0.90</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>ml.dmlc</groupId>-->
+<!--            <artifactId>xgboost4j</artifactId>-->
+<!--            <version>0.90</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.scala-lang</groupId>-->
+<!--                    <artifactId>scala-library</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.apache.commons</groupId>

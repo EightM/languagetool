@@ -21,20 +21,16 @@
 
 package org.languagetool.server;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -85,35 +81,35 @@ public class SuggestionsRankerTest {
     server.stop();
   }
 
-  @Test
-  public void testRankingWithUserDict() throws IOException {
-    // no need to also create test tables for logging
-    try {
-      DatabaseAccess.createAndFillTestTables();
-      XGBoostSuggestionsOrderer.setAutoCorrectThresholdForLanguage(english, 0.5f);
-
-      String autoCorrectReplacements = getReplacements(check(english, "This is a mistak.", agent, 3L,
-        UserDictTest.USERNAME1, UserDictTest.API_KEY1));
-      System.out.println(autoCorrectReplacements);
-      assertThat(autoCorrectReplacements, allOf(containsString("confidence"),
-        containsString("autoCorrect")));
-      addWord("mistaki", UserDictTest.USERNAME1, UserDictTest.API_KEY1);
-
-      String replacementsData = getReplacements(check(english, "This is a mistak.", agent, 3L,
-        UserDictTest.USERNAME1, UserDictTest.API_KEY1));
-      System.out.println(replacementsData);
-      ObjectMapper mapper = new ObjectMapper();
-      List<Map<String, Object>> replacements = mapper.readValue(replacementsData, List.class);
-      assertThat(replacements.get(0).get("value"), is("mistaki"));
-      assertThat(replacements.get(0).get("confidence"), is(nullValue()));
-      assertThat(replacements.get(0).containsKey("autoCorrect"), is(false));
-      assertThat(replacements.get(1).get("value"), is("mistake"));
-      assertThat(replacements.get(1).get("confidence"), is(notNullValue()));
-      assertThat(replacements.get(1).get("confidence"), not(0.0));
-    } finally {
-      DatabaseAccess.deleteTestTables();
-    }
-  }
+//  @Test
+//  public void testRankingWithUserDict() throws IOException {
+//    // no need to also create test tables for logging
+//    try {
+//      DatabaseAccess.createAndFillTestTables();
+//      XGBoostSuggestionsOrderer.setAutoCorrectThresholdForLanguage(english, 0.5f);
+//
+//      String autoCorrectReplacements = getReplacements(check(english, "This is a mistak.", agent, 3L,
+//        UserDictTest.USERNAME1, UserDictTest.API_KEY1));
+//      System.out.println(autoCorrectReplacements);
+//      assertThat(autoCorrectReplacements, allOf(containsString("confidence"),
+//        containsString("autoCorrect")));
+//      addWord("mistaki", UserDictTest.USERNAME1, UserDictTest.API_KEY1);
+//
+//      String replacementsData = getReplacements(check(english, "This is a mistak.", agent, 3L,
+//        UserDictTest.USERNAME1, UserDictTest.API_KEY1));
+//      System.out.println(replacementsData);
+//      ObjectMapper mapper = new ObjectMapper();
+//      List<Map<String, Object>> replacements = mapper.readValue(replacementsData, List.class);
+//      assertThat(replacements.get(0).get("value"), is("mistaki"));
+//      assertThat(replacements.get(0).get("confidence"), is(nullValue()));
+//      assertThat(replacements.get(0).containsKey("autoCorrect"), is(false));
+//      assertThat(replacements.get(1).get("value"), is("mistake"));
+//      assertThat(replacements.get(1).get("confidence"), is(notNullValue()));
+//      assertThat(replacements.get(1).get("confidence"), not(0.0));
+//    } finally {
+//      DatabaseAccess.deleteTestTables();
+//    }
+//  }
 
   @Test
   public void testRanking() throws IOException {

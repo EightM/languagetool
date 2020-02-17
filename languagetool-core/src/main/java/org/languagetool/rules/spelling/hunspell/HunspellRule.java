@@ -49,7 +49,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
 import com.google.common.io.Resources;
@@ -112,7 +111,9 @@ public class HunspellRule extends SpellingCheckRule {
        suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
        runningExperiment = true;
      } else {
-       suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
+       // Disable XGBoost for BSL LS
+       //suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
+       suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
        runningExperiment = false;
      }
   }
